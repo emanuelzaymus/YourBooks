@@ -15,6 +15,8 @@ namespace YourBooks.Models
         {
         }
 
+        public DbSet<Book> Book { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

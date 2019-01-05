@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YourBooks.Models;
 
 namespace YourBooks.Migrations
 {
     [DbContext(typeof(YourBooksContext))]
-    partial class YourBooksContextModelSnapshot : ModelSnapshot
+    [Migration("20190104204414_mig")]
+    partial class mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,33 +184,6 @@ namespace YourBooks.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("YourBooks.Models.Book", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Genre")
-                        .IsRequired()
-                        .HasMaxLength(30);
-
-                    b.Property<int>("ISBN");
-
-                    b.Property<string>("Rating")
-                        .IsRequired()
-                        .HasMaxLength(5);
-
-                    b.Property<DateTime>("ReleaseDate");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(60);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Book");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
