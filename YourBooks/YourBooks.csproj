@@ -19,4 +19,22 @@
     <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\EditBooks\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\EditBooks\Delete.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\EditBooks\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\EditBooks\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\EditBooks\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

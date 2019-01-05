@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -11,17 +12,19 @@ using YourBooks.Models;
 
 namespace YourBooks.Controllers
 {
-    public class BooksController : Controller
+    public class EditBooksController : Controller
     {
         private readonly YourBooksContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BooksController(YourBooksContext context)
-        {   
+        public EditBooksController(YourBooksContext context, UserManager<ApplicationUser> userManager)
+        {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Books
-        public async Task<IActionResult> Index(string bookGenre, string searchString)
+        public async Task<IActionResult> Index(string bookGenre, string searchString, string currUserId)
         {
             // Use LINQ to get list of genres.
             IQueryable<string> genreQuery = from b in _context.Book
@@ -30,6 +33,11 @@ namespace YourBooks.Controllers
 
             var books = from b in _context.Book
                         select b;
+
+            var userId = _userManager.GetUserId(HttpContext.User);
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            books = books.Where(x => x.UserId == userId);
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -83,6 +91,7 @@ namespace YourBooks.Controllers
         {
             if (ModelState.IsValid)
             {
+                book.UserId = _userManager.GetUserId(HttpContext.User);
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
