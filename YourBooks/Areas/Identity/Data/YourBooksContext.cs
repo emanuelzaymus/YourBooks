@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace YourBooks.Models
 {
-    public class YourBooksContext : IdentityDbContext<IdentityUser>
+    public class YourBooksContext : IdentityDbContext<ApplicationUser>
     {
-        public YourBooksContext(DbContextOptions<YourBooksContext> options)
-            : base(options)
+        public YourBooksContext(DbContextOptions<YourBooksContext> options) : base(options)
         {
         }
 
