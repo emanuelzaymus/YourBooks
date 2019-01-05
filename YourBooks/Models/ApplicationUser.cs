@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace YourBooks.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public string RemoveMeLater { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }

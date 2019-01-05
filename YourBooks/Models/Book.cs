@@ -30,5 +30,8 @@ namespace YourBooks.Models
         [StringLength(5)]
         [Required]
         public string Rating { get; set; }
+
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

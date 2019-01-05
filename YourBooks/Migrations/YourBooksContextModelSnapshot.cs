@@ -164,8 +164,6 @@ namespace YourBooks.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("RemoveMeLater");
-
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -208,7 +206,11 @@ namespace YourBooks.Migrations
                         .IsRequired()
                         .HasMaxLength(60);
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Book");
                 });
@@ -256,6 +258,13 @@ namespace YourBooks.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("YourBooks.Models.Book", b =>
+                {
+                    b.HasOne("YourBooks.Models.ApplicationUser", "User")
+                        .WithMany("Books")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
