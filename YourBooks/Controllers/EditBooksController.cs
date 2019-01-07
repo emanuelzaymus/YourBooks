@@ -26,11 +26,6 @@ namespace YourBooks.Controllers
         // GET: Books
         public async Task<IActionResult> Index(string bookGenre, string searchString, string currUserId)
         {
-            // Use LINQ to get list of genres.
-            IQueryable<string> genreQuery = from b in _context.Book
-                                            orderby b.Genre
-                                            select b.Genre;
-
             var books = from b in _context.Book
                         select b;
 
@@ -38,6 +33,10 @@ namespace YourBooks.Controllers
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             books = books.Where(x => x.UserId == userId);
+
+            IQueryable<string> genreQuery = from b in books
+                                            orderby b.Genre
+                                            select b.Genre;
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -66,14 +65,41 @@ namespace YourBooks.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Book
-                .FirstOrDefaultAsync(b => b.Id == id);
+            var book = await _context.Book.FirstOrDefaultAsync(b => b.Id == id);
             if (book == null)
             {
                 return NotFound();
             }
 
+            var comments = from c in _context.Comments
+                           where c.BookId == id
+                           select c;
+            book.Comments = comments.ToList();
+
+            foreach (var item in book.Comments)
+            {
+                item.User = _userManager.FindByIdAsync(item.UserId).Result;
+            }
             return View(book);
+        }
+
+        // POST: Books/Details/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id, string commentText)
+        {
+            if (ModelState.IsValid && commentText != null && commentText != "")
+            {
+                var comment = new Comment();
+                comment.Text = commentText;
+                comment.BookId = id;
+                comment.UserId = _userManager.GetUserId(HttpContext.User);
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+            }
+            return Details(id).Result;
         }
 
         // GET: Books/Create
@@ -87,7 +113,7 @@ namespace YourBooks.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Book book)
+        public async Task<IActionResult> Create([Bind("Id,Title,Author,ISBN,ReleaseDate,Genre,Rating")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -120,7 +146,7 @@ namespace YourBooks.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,ISBN,ReleaseDate,Genre,Rating")] Book book)
         {
             if (id != book.Id)
             {
@@ -131,6 +157,7 @@ namespace YourBooks.Controllers
             {
                 try
                 {
+                    book.UserId = _userManager.GetUserId(HttpContext.User);
                     _context.Update(book);
                     await _context.SaveChangesAsync();
                 }
@@ -183,5 +210,19 @@ namespace YourBooks.Controllers
         {
             return _context.Book.Any(e => e.Id == id);
         }
+
+        // POST: Books/Delete/5
+        [HttpPost, ActionName("DeleteComment")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            var comment = await _context.Comments.FindAsync(id);
+            var bookId = comment.BookId;
+            _context.Comments.Remove(comment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Details", "EditBooks", new { id = bookId });
+            //return Details(bookId).Result;
+        }
+
     }
 }

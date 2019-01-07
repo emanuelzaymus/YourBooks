@@ -14,6 +14,11 @@ namespace YourBooks.Models
         [Required]
         public string Title { get; set; }
 
+        [StringLength(60, MinimumLength = 3)]
+        [Required]
+        public string Author { get; set; }
+
+        [Required]
         public int ISBN { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
@@ -33,5 +38,8 @@ namespace YourBooks.Models
 
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
+
     }
 }

@@ -14,10 +14,12 @@ namespace YourBooks.Controllers
     public class BooksController : Controller
     {
         private readonly YourBooksContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BooksController(YourBooksContext context)
+        public BooksController(YourBooksContext context, UserManager<ApplicationUser> userManager)
         {   
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Books
@@ -65,7 +67,37 @@ namespace YourBooks.Controllers
                 return NotFound();
             }
 
+            var comments = from c in _context.Comments
+                           where c.BookId == id
+                           select c;
+            book.Comments = comments.ToList();
+
+            foreach (var item in book.Comments)
+            {
+                item.User = _userManager.FindByIdAsync(item.UserId).Result;
+            }
+
             return View(book);
         }
+
+        // POST: Books/Details/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Details(int id, string commentText)
+        {
+            if (ModelState.IsValid && commentText != null && commentText != "")
+            {
+                var comment = new Comment();
+                comment.Text = commentText;
+                comment.BookId = id;
+                comment.UserId = _userManager.GetUserId(HttpContext.User);
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+            }
+            return Details(id).Result;
+        }
+
     }
 }

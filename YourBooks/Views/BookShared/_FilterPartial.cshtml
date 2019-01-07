@@ -1,0 +1,19 @@
+﻿@model YourBooks.Models.BookGenreViewModel
+
+<div class="col-md-4 custom-pad">
+    <div>
+        <label class="control-label">Genre:</label>
+        <select asp-for="BookGenre" asp-items="Model.Genres" class="form-control">
+            <option value="">All</option>
+        </select>
+    </div>
+    <div>
+        <label class="control-label">Title:</label>
+        <input type="text" name="SearchString" class="form-control">
+    </div>
+    <br />
+    <div>
+        <input type="submit" value="Filter" class="btn btn-primary" />
+    </div>
+    <br />
+</div>

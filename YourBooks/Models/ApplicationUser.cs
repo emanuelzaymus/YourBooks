@@ -6,5 +6,7 @@ namespace YourBooks.Models
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Book> Books { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 }

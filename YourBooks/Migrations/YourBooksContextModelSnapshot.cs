@@ -190,6 +190,10 @@ namespace YourBooks.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasMaxLength(60);
+
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasMaxLength(30);
@@ -213,6 +217,28 @@ namespace YourBooks.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Book");
+                });
+
+            modelBuilder.Entity("YourBooks.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BookId");
+
+                    b.Property<string>("Text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -265,6 +291,19 @@ namespace YourBooks.Migrations
                     b.HasOne("YourBooks.Models.ApplicationUser", "User")
                         .WithMany("Books")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("YourBooks.Models.Comment", b =>
+                {
+                    b.HasOne("YourBooks.Models.Book", "Book")
+                        .WithMany("Comments")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("YourBooks.Models.ApplicationUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

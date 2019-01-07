@@ -1,41 +1,44 @@
 ﻿@model YourBooks.Models.Book
-
 @{
     ViewData["Title"] = "Details";
 }
-
 <h2>Details</h2>
 
+<partial name="../BookShared/_BookInfo" />
+
+@if (Model.Comments != null && Model.Comments.ToList().Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Comments:
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Comments.ToList())
+            {
+                <div>
+                    <tr>
+                        <td>
+                            <div>
+                                @Html.DisplayFor(modelItem => item.Text)
+                            </div>
+                            <div>
+                                @Html.DisplayFor(modelItem => item.User.UserName)
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+            }
+        </tbody>
+    </table>
+}
+<form asp-controller="Books" asp-action="Details" method="post">
+    <partial name="../BookShared/_AddComment" />
+</form>
+
 <div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-default">Back to List</a>
 </div>
