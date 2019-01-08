@@ -23,35 +23,35 @@ namespace YourBooks.Models
                 context.Book.AddRange(
                     new Book
                     {
-                        Title = "When Harry Met Sally",
-                        ReleaseDate = DateTime.Parse("1989-2-12"),
-                        Genre = "Romantic Comedy",
-                        Rating = "OK"
+                        Title = "Be Fearless: 5 Principles for a Life of Breakthroughs and Purpose",
+                        Author = "Jean Case",
+                        ISBN = 654879,
+                        ReleaseDate = DateTime.Parse("2018-8-1"),
+                        Genre = "Philosopics",
+                        Rating = "OK",
+                        UserId = "d86ef0e5-ab85-4b47-b977-feb5cd7e97ec"
                     },
-
                     new Book
                     {
-                        Title = "Ghostbusters ",
-                        ReleaseDate = DateTime.Parse("1984-3-13"),
-                        Genre = "Comedy",
-                        Rating = "OK"
+                        Title = "Becoming",
+                        Author = "Michelle Obama",
+                        ISBN = 2684915,
+                        ReleaseDate = DateTime.Parse("2018-11-13"),
+                        Genre = "Inspiring",
+                        Rating = "The Best",
+                        UserId = "d86ef0e5-ab85-4b47-b977-feb5cd7e97ec"
                     },
-
                     new Book
                     {
-                        Title = "Ghostbusters 2",
-                        ReleaseDate = DateTime.Parse("1986-2-23"),
-                        Genre = "Comedy",
-                        Rating = "Nice"
-                    },
-
-                    new Book
-                    {
-                        Title = "Rio Bravo",
-                        ReleaseDate = DateTime.Parse("1959-4-15"),
-                        Genre = "Western",
-                        Rating = "Nice"
+                        Title = "The Other Wes Moore: One Name, Two Fates",
+                        Author = " Wes Moore, Tavis Smiley (Afterword)",
+                        ISBN = 654879,
+                        ReleaseDate = DateTime.Parse("2010-4-27"),
+                        Genre = "Philosopics",
+                        Rating = "OK",
+                        UserId = "d86ef0e5-ab85-4b47-b977-feb5cd7e97ec"
                     }
+
                 );
                 context.SaveChanges();
             }

@@ -17,14 +17,14 @@ namespace YourBooks.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "This is brand new page where you can find all of your favourite books and info about them.";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Discover information you need.";
 
             return View();
         }

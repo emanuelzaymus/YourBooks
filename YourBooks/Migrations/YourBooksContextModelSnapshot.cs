@@ -202,7 +202,7 @@ namespace YourBooks.Migrations
 
                     b.Property<string>("Rating")
                         .IsRequired()
-                        .HasMaxLength(5);
+                        .HasMaxLength(20);
 
                     b.Property<DateTime>("ReleaseDate");
 

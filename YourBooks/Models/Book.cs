@@ -31,8 +31,7 @@ namespace YourBooks.Models
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-]*$")]
-        [StringLength(5)]
+        [StringLength(20)]
         [Required]
         public string Rating { get; set; }
 
