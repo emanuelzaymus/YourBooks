@@ -39,11 +39,6 @@ namespace YourBooks.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required]
-            [StringLength(60, MinimumLength = 3)]
-            [Display(Name = "User name")]
-            public string UserName { get; set; }
-
-            [Required]
             [EmailAddress]
             public string Email { get; set; }
 
@@ -68,7 +63,6 @@ namespace YourBooks.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                UserName = userName,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -89,17 +83,6 @@ namespace YourBooks.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var userName = await _userManager.GetUserNameAsync(user);
-            if (Input.UserName != userName)
-            {
-                var setNameResult = await _userManager.SetUserNameAsync(user, Input.UserName);
-                if (!setNameResult.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting user name for user with ID '{userId}'.");
-                }
             }
 
             var email = await _userManager.GetEmailAsync(user);

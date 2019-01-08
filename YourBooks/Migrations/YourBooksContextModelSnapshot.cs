@@ -200,6 +200,8 @@ namespace YourBooks.Migrations
 
                     b.Property<int>("ISBN");
 
+                    b.Property<string>("ImgURL");
+
                     b.Property<string>("Rating")
                         .IsRequired()
                         .HasMaxLength(20);
@@ -211,6 +213,8 @@ namespace YourBooks.Migrations
                         .HasMaxLength(60);
 
                     b.Property<string>("UserId");
+
+                    b.Property<string>("WebURL");
 
                     b.HasKey("Id");
 

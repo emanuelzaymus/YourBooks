@@ -1,4 +1,7 @@
-﻿@model YourBooks.Models.Book
+﻿@using Microsoft.AspNetCore.Identity
+@model YourBooks.Models.Book
+@inject SignInManager<ApplicationUser> SignInManager
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -35,10 +38,19 @@
         </tbody>
     </table>
 }
-<form asp-controller="Books" asp-action="Details" method="post">
-    <partial name="../BookShared/_AddComment" />
-</form>
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="Books" asp-action="Details" method="post">
+        <partial name="../BookShared/_AddComment" />
+    </form>
+}
+else
+{
+    <p>Log in to write a comment:</p>
+    <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-default">Login</a>
+}
 
+<hr>
 <div>
     <a asp-action="Index" class="btn btn-default">Back to List</a>
 </div>

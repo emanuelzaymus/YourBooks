@@ -1,11 +1,12 @@
-﻿@model YourBooks.Models.BookGenreViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@model YourBooks.Models.BookGenreViewModel
 @{
     ViewData["Title"] = "Edit Books";
 }
+
 <h2>Edit Books</h2>
-
 <h4>Here you can create and edit your books.</h4>
-
 <p>
     <a asp-action="Create" class="btn btn-default">Create New</a>
 </p>

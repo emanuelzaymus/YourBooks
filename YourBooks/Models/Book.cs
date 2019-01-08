@@ -35,6 +35,14 @@ namespace YourBooks.Models
         [Required]
         public string Rating { get; set; }
 
+        [Display(Name = "Image URL")]
+        [Url]
+        public string ImgURL { get; set; }
+
+        [Display(Name = "Online shop URL")]
+        [Url]
+        public string WebURL { get; set; }
+
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 

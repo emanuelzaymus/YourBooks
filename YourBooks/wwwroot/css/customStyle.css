@@ -16,6 +16,15 @@
 }
 
 .cust-margin {
-    padding-top:30;
-    padding-bottom:30;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.cust-book-details {
+    font-size: 18px;
+}
+
+.cust-but-shop{
+    margin: 10px;
+    margin-bottom: 20px;
 }
