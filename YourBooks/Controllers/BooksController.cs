@@ -17,7 +17,7 @@ namespace YourBooks.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         public BooksController(YourBooksContext context, UserManager<ApplicationUser> userManager)
-        {   
+        {
             _context = context;
             _userManager = userManager;
         }
@@ -97,6 +97,28 @@ namespace YourBooks.Controllers
                 await _context.SaveChangesAsync();
             }
             return Details(id).Result;
+        }
+
+        [HttpGet]
+        public IActionResult OnGetComments(int id)
+        {
+            var comments = from c in _context.Comments
+                           where c.BookId == id
+                           select c;
+
+            var ajaxComments = new List<AjaxComment>();
+
+            foreach (var item in comments)
+            {
+                ajaxComments.Add(new AjaxComment()
+                {
+                    Id = item.Id,
+                    Text = item.Text,
+                    UserName = _userManager.FindByIdAsync(item.UserId).Result.UserName
+                });
+            }
+
+            return new JsonResult(ajaxComments);
         }
 
     }

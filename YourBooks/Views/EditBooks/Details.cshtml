@@ -4,7 +4,8 @@
 }
 <h2>Details</h2>
 <partial name="../BookShared/_BookInfo" />
-<div>
+
+<div class="col-md-12 col-sm-12 col-xs-12 cust-buttoms-details">
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a>
     <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
     <a asp-action="Index" class="btn btn-default">Back to List</a>
@@ -12,40 +13,48 @@
 
 @if (Model.Comments != null && Model.Comments.ToList().Count > 0)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Comments:
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Comments.ToList())
-            {
-                <div>
-                    <tr>
-                        <td>
-                            <div>
-                                @Html.DisplayFor(modelItem => item.Text)
-                            </div>
-                            <div>
-                                @Html.DisplayFor(modelItem => item.User.UserName)
-                            </div>
-                        </td>
-                        <td class="text-right">
-                            <form asp-action="DeleteComment">
-                                <input type="hidden" name="id" asp-for="@item.Id" />
-                                <input type="submit" value="Delete" class="btn btn-danger" />
-                            </form>
-                        </td>
-                    </tr>
-                </div>
-            }
-        </tbody>
-    </table>
+    <div id="ajaxCommentsEdit"></div>
 }
 
 <form asp-controller="EditBooks" asp-action="Details" method="post">
     <partial name="../BookShared/_AddComment" />
 </form>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/Books/OnGetComments/' + @Model.Id,
+            success: function (comments) {
+                var res =
+                    '<table class="table">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th>Comments:</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>';
+                for (var i = 0; i < comments.length; i++) {
+                    res +=
+                            '<tr>' +
+                                '<td>' +
+                                    '<div>' + comments[i].text + '</div>' +
+                                    '<div>' + comments[i].userName + '</div>' +
+                                '</td>' +
+                                '<td class="text-right">' +
+                                    '<form action="/EditBooks/DeleteComment" method="post">' +
+                                        '<input type="hidden" name="id" value=' + comments[i].id + ' />' +
+                                        '<input type="submit" value="Delete" class="btn btn-danger" />' +
+                                    '</form>' +
+                                '</td>' +
+                            '</tr>';
+                }
+                res +=
+                        '</tbody>' +
+                    '</table>';
+
+                $('#ajaxCommentsEdit').html(res);
+            }
+        });
+    });
+</script>

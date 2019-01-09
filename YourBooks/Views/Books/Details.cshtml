@@ -11,32 +11,7 @@
 
 @if (Model.Comments != null && Model.Comments.ToList().Count > 0)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Comments:
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Comments.ToList())
-            {
-                <div>
-                    <tr>
-                        <td>
-                            <div>
-                                @Html.DisplayFor(modelItem => item.Text)
-                            </div>
-                            <div>
-                                @Html.DisplayFor(modelItem => item.User.UserName)
-                            </div>
-                        </td>
-                    </tr>
-                </div>
-            }
-        </tbody>
-    </table>
+    <div id="ajaxComments"></div>
 }
 @if (SignInManager.IsSignedIn(User))
 {
@@ -54,3 +29,36 @@ else
 <div>
     <a asp-action="Index" class="btn btn-default">Back to List</a>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/Books/OnGetComments/' + @Model.Id,
+            success: function (comments) {
+                var res =
+                    '<table class="table">' +
+                        '<thead>' +
+                            '<tr>' +
+                                '<th>Comments:</th>' +
+                            '</tr>' +
+                        '</thead>' +
+                        '<tbody>';
+                for (var i = 0; i < comments.length; i++) {
+                    res +=
+                            '<tr>' +
+                                '<td>' +
+                                    '<div>' + comments[i].text + '</div>' +
+                                    '<div>' + comments[i].userName + '</div>' +
+                                '</td>' +
+                            '</tr>';
+                }
+                res +=
+                        '</tbody>' +
+                    '</table>';
+
+                $('#ajaxComments').html(res);
+            }
+        });
+    });
+</script>
