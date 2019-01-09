@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace YourBooks.Models
         public string Author { get; set; }
 
         [Required]
-        public int ISBN { get; set; }
+        public long ISBN { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$")]
         [Required]
@@ -35,10 +35,12 @@ namespace YourBooks.Models
         [Required]
         public string Rating { get; set; }
 
+        [Required]
         [Display(Name = "Image URL")]
         [Url]
         public string ImgURL { get; set; }
 
+        [Required]
         [Display(Name = "Online shop URL")]
         [Url]
         public string WebURL { get; set; }

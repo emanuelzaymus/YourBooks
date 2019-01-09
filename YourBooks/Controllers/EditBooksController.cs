@@ -210,8 +210,7 @@ namespace YourBooks.Controllers
         }
 
         // POST: Books/Delete/5
-        [ValidateAntiForgeryToken]
-        [HttpPost, ActionName("DeleteComment")]
+        [HttpPost]
         public async Task<IActionResult> DeleteComment(int id)
         {
             var comment = await _context.Comments.FindAsync(id);

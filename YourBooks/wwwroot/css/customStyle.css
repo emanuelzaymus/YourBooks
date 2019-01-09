@@ -7,7 +7,7 @@
     height: auto;
 }
 
-.custom-text-center{
+.custom-text-center {
     text-align: center;
 }
 
@@ -24,11 +24,28 @@
     font-size: 18px;
 }
 
-.cust-but-shop{
+.cust-but-shop {
     margin: 10px;
     margin-bottom: 20px;
 }
 
 .cust-buttoms-details {
     margin-top: 40px;
+}
+
+#your-comments {
+    border-top: 20px;
+}
+
+#cust-controls {
+    padding: 10px;
+}
+
+.cust-caurse-img {
+    width: 100%;
+    height: 100%;
+}
+
+.cust-caursel {
+    max-height: 300px;
 }

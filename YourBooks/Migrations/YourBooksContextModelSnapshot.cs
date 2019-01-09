@@ -198,7 +198,7 @@ namespace YourBooks.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<int>("ISBN");
+                    b.Property<long>("ISBN");
 
                     b.Property<string>("ImgURL");
 
